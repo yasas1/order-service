@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: order-service
+
+server:
+  port: 8001
+
+#eureka:
+#  client:
+#    service-url: http://localhost:8761/eureka

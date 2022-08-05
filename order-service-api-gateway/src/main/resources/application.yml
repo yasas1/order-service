@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/order/*
+            - Method=GET,POST,PUT,DELETE
+            - Path=/order-events/*
+            - Method=GET,POST,PUT,DELETE
+
+
+
