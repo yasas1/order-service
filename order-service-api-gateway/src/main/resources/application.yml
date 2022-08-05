@@ -2,11 +2,14 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: order-service
+        - id: order-service-route
           uri: lb://order-service
           predicates:
-            - Path=/order/*
+            - Path=/orders/*
             - Method=GET,POST,PUT,DELETE
+        - id: order-event-service-route
+          uri: lb://order-event-service
+          predicates:
             - Path=/order-events/*
             - Method=GET,POST,PUT,DELETE
 
