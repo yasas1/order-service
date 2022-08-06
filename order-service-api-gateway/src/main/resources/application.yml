@@ -12,6 +12,11 @@ spring:
           predicates:
             - Path=/order-events/*
             - Method=GET,POST,PUT,DELETE
+        - id: order-connector-service-route
+          uri: lb://order-connector-service
+          predicates:
+            - Path=/order-connector/*
+            - Method=GET,POST,PUT,DELETE
 
 
 

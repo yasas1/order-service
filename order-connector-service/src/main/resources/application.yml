@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: order-connector-service
+
+server:
+  port: 8003
