@@ -1,6 +1,18 @@
 spring:
   application:
     name: order-service
+  kafka:
+    consumer:
+      bootstrap-servers: DESKTOP-7JUA3TN:9092
+      group-id: orderGroup
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  r2dbc:
+    url: r2dbc:postgresql://localhost/workDb?schema=public
+    username: postgres
+    password: 12345
+
 
 server:
   port: 8001
