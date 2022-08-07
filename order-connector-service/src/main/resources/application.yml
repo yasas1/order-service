@@ -1,6 +1,11 @@
 spring:
   application:
     name: order-connector-service
+  kafka:
+    producer:
+      bootstrap-servers: DESKTOP-7JUA3TN:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 server:
   port: 8003
