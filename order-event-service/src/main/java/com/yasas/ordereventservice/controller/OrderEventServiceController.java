@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 public class OrderEventServiceController {
 
     @GetMapping("/welcome")
-    public Mono<String> welcomeOrderEvents(){
+    public Mono<String> welcomeOrderEvents() {
         return Mono.just("Welcome To Order Events Service");
     }
 }
