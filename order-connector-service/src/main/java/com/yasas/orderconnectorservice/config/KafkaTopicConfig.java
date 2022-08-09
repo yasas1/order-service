@@ -10,6 +10,8 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic topic(){
-        return TopicBuilder.name("order-listener").build();
+        return TopicBuilder.name("order-listener")
+                .partitions(3)
+                .build();
     }
 }
