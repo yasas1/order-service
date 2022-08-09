@@ -1,6 +1,14 @@
 spring:
   application:
     name: order-event-service
+  kafka:
+    consumer:
+      bootstrap-servers: DESKTOP-7JUA3TN:9092
+      group-id: orderGroup
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
 
 server:
   port: 8002

@@ -1,4 +1,4 @@
-package com.yasas.orderservice.entity;
+package com.yasas.orderservice.dto;
 
 import lombok.Builder;
 import lombok.Data;

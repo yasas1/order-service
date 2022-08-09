@@ -2,9 +2,10 @@ package com.yasas.orderservice.service.impl;
 
 import com.google.gson.Gson;
 import com.yasas.orderservice.repository.OrderRepository;
-import com.yasas.orderservice.entity.OrderData;
+import com.yasas.orderservice.dto.OrderData;
 import com.yasas.orderservice.entity.OrderEntity;
 import com.yasas.orderservice.service.OrderService;
+import com.yasas.orderservice.util.OrderObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
         OrderData orderData = gson.fromJson(eventMessage, OrderData.class);
         log.info("OrderData : " + orderData);
         if (validateOrderData(orderData)) {
-            this.createOrUpdateOrder(mapOrderDataToOrderEntity(orderData)).subscribe();
+            this.createOrUpdateOrder(OrderObjectUtil.mapOrderDataToOrderEntity(orderData)).subscribe();
         }
     }
 
@@ -68,26 +69,4 @@ public class OrderServiceImpl implements OrderService {
         return true;
     }
 
-    private OrderEntity mapOrderDataToOrderEntity(OrderData orderData) {
-        return OrderEntity.builder()
-                .bid(getBidToOrderEntity(orderData))
-                .orderStatus(orderData.getOrderStatus())
-                .userName(orderData.getUserName())
-                .email(orderData.getEmail())
-                .itemCode(orderData.getItemCode())
-                .itemCategory(orderData.getItemCategory())
-                .price(orderData.getPrice())
-                .orderedDateTime(orderData.getOrderedDateTime())
-                .countryCode(orderData.getCountryCode())
-                .countryName(orderData.getCountryName())
-                .state(orderData.getState())
-                .city(orderData.getCity())
-                .createdDateTime(System.currentTimeMillis())
-                .lastUpdatedDateTime(System.currentTimeMillis())
-                .build();
-    }
-
-    private String getBidToOrderEntity(OrderData orderData) {
-        return "id_" + orderData.getItemCode() + "_" + orderData.getUserName() + "_" + Long.toString(orderData.getOrderedDateTime());
-    }
 }
