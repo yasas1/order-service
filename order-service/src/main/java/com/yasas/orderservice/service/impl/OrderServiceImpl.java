@@ -2,7 +2,7 @@ package com.yasas.orderservice.service.impl;
 
 import com.google.gson.Gson;
 import com.yasas.orderservice.repository.OrderRepository;
-import com.yasas.orderservice.dto.OrderData;
+import com.yasas.orderservice.dto.OrderDto;
 import com.yasas.orderservice.entity.OrderEntity;
 import com.yasas.orderservice.service.OrderService;
 import com.yasas.orderservice.util.OrderObjectUtil;
@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
     public void consumeOrder(String eventMessage) {
         log.info("Order Message : " + eventMessage);
         Gson gson = new Gson();
-        OrderData orderData = gson.fromJson(eventMessage, OrderData.class);
+        OrderDto orderData = gson.fromJson(eventMessage, OrderDto.class);
         log.info("OrderData : " + orderData);
         if (validateOrderData(orderData)) {
             this.createOrUpdateOrder(OrderObjectUtil.mapOrderDataToOrderEntity(orderData)).subscribe();
@@ -53,18 +53,21 @@ public class OrderServiceImpl implements OrderService {
                 .doOnError(throwable -> log.error("Error in create or update order : ", throwable));
     }
 
-    private boolean validateOrderData(OrderData orderData) {
-        if (orderData.getUserName() == null || orderData.getUserName().isBlank()) {
+    private boolean validateOrderData(OrderDto orderDto) {
+        if (orderDto.getUserName() == null || orderDto.getUserName().isBlank()) {
             return false;
         }
-        if (orderData.getEmail() == null || orderData.getEmail().isBlank()) {
+        if (orderDto.getEmail() == null || orderDto.getEmail().isBlank()) {
             return false;
         }
-        if (orderData.getItemCode() == null || orderData.getItemCode().isBlank()) {
+        if (orderDto.getItemCode() == null || orderDto.getItemCode().isBlank()) {
             return false;
         }
-        if (orderData.getOrderedDateTime() == 0) {
-            orderData.setOrderedDateTime(System.currentTimeMillis());
+        if (orderDto.getOrderStatus() == null || orderDto.getOrderStatus().isBlank()) {
+            return false;
+        }
+        if (orderDto.getOrderedDateTime() == 0) {
+            orderDto.setOrderedDateTime(System.currentTimeMillis());
         }
         return true;
     }

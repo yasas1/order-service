@@ -9,6 +9,12 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
+  data:
+    mongodb:
+      database: order-event-service
+      host: localhost
+      port: 27017
+
 
 server:
   port: 8002

@@ -9,7 +9,7 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   r2dbc:
-    url: r2dbc:postgresql://localhost/workDb?schema=public
+    url: r2dbc:postgresql://localhost/order-service?schema=public
     username: postgres
     password: 12345
 

@@ -1,12 +1,11 @@
-package com.yasas.orderservice.dto;
+package com.yasas.ordereventservice.dto;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
 @Builder
-@Data
-public class OrderData {
-
+@Getter
+public class OrderEventDto {
     private String orderStatus;
 
     private String userName;
@@ -21,5 +20,4 @@ public class OrderData {
     private String countryName;
     private String state;
     private String city;
-
 }

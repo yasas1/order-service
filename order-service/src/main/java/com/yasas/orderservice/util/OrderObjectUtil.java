@@ -1,11 +1,11 @@
 package com.yasas.orderservice.util;
 
-import com.yasas.orderservice.dto.OrderData;
+import com.yasas.orderservice.dto.OrderDto;
 import com.yasas.orderservice.entity.OrderEntity;
 
 public class OrderObjectUtil {
 
-    public static OrderEntity mapOrderDataToOrderEntity(OrderData orderData) {
+    public static OrderEntity mapOrderDataToOrderEntity(OrderDto orderData) {
         return OrderEntity.builder()
                 .bid(getBidToOrderEntity(orderData))
                 .orderStatus(orderData.getOrderStatus())
@@ -24,7 +24,7 @@ public class OrderObjectUtil {
                 .build();
     }
 
-    private static String getBidToOrderEntity(OrderData orderData) {
-        return "id_" + orderData.getItemCode() + "_" + orderData.getUserName() + "_" + Long.toString(orderData.getOrderedDateTime());
+    private static String getBidToOrderEntity(OrderDto orderDto) {
+        return "id_" + orderDto.getItemCode() + "_" + orderDto.getUserName() + "_" + orderDto.getOrderStatus();
     }
 }
