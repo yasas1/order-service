@@ -63,7 +63,6 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderEntity mapOrderDataToOrderEntity(OrderData orderData) {
         return OrderEntity.builder()
-                .tid(UUID.randomUUID().toString())
                 .bid(getBidToOrderEntity(orderData))
                 .orderStatus(orderData.getOrderStatus())
                 .userName(orderData.getUserName())

@@ -6,13 +6,15 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.UUID;
+
 @Builder
 @Data
 @Table(name = "OrderEntity")
 public class OrderEntity {
 
     @Id
-    private String tid;
+    private UUID tid;
     private String bid;
 
     private String orderStatus;
