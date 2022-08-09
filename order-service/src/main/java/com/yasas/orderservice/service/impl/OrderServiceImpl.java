@@ -1,34 +1,40 @@
-package com.yasas.orderservice.service;
+package com.yasas.orderservice.service.impl;
 
 import com.google.gson.Gson;
 import com.yasas.orderservice.repository.OrderRepository;
 import com.yasas.orderservice.entity.OrderData;
 import com.yasas.orderservice.entity.OrderEntity;
+import com.yasas.orderservice.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
 
 @Slf4j
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    @Autowired
-    private OrderRepository orderRepository;
+    private static final String TOPIC = "order-listener";
+    private static final String GROUP_ID = "orderGroup";
+
+    private final OrderRepository orderRepository;
+
+    public OrderServiceImpl(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
 
     @KafkaListener(
-            topics = "order-listener",
-            groupId = "orderGroup"
+            topics = TOPIC,
+            groupId = GROUP_ID
     )
     public void consumeOrder(String eventMessage) {
         log.info("Order Message : " + eventMessage);
         Gson gson = new Gson();
         OrderData orderData = gson.fromJson(eventMessage, OrderData.class);
+        log.info("OrderData : " + orderData);
         if (validateOrderData(orderData)) {
-            createOrUpdateOrder(mapOrderDataToOrderEntity(orderData)).subscribe();
+            this.createOrUpdateOrder(mapOrderDataToOrderEntity(orderData)).subscribe();
         }
     }
 
@@ -36,13 +42,14 @@ public class OrderServiceImpl implements OrderService {
     public Mono<OrderEntity> createOrUpdateOrder(OrderEntity orderEntity) {
         return orderRepository.findByBId(orderEntity.getBid())
                 .flatMap(exist -> {
+                    log.info("Order found : " + exist);
                     orderEntity.setTid(exist.getTid());
                     orderEntity.setCreatedDateTime(exist.getCreatedDateTime());
                     orderEntity.setLastUpdatedDateTime(System.currentTimeMillis());
                     return orderRepository.save(orderEntity);
                 })
                 .switchIfEmpty(Mono.defer(() -> orderRepository.save(orderEntity)))
-                .doOnError(Throwable::printStackTrace);
+                .doOnError(throwable -> log.error("Error in create or update order : ", throwable));
     }
 
     private boolean validateOrderData(OrderData orderData) {
