@@ -9,6 +9,9 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/orders")
 public class OrderServiceController {
 
+//    @Autowired
+//    private OrderService orderService;
+
     @GetMapping("/welcome")
     public Mono<String> welcomeOrderEvents(){
         return Mono.just("Welcome To Order Service");

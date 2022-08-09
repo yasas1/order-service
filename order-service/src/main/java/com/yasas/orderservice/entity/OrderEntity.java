@@ -1,16 +1,20 @@
-package com.yasas.orderservice.Entity;
+package com.yasas.orderservice.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+@Builder
 @Data
-@Table
+@Table(name = "OrderEntity")
 public class OrderEntity {
 
     @Id
-    private Long tid;
+    private String tid;
     private String bid;
+
     private String orderStatus;
 
     private String userName;

@@ -1,8 +1,9 @@
 package com.yasas.orderservice.service;
 
-import com.yasas.orderservice.Entity.OrderEntity;
+import com.yasas.orderservice.entity.OrderEntity;
+import reactor.core.publisher.Mono;
 
 public interface OrderService {
 
-    OrderEntity createOrUpdateOrder(OrderEntity orderEntity);
+    Mono<OrderEntity> createOrUpdateOrder(OrderEntity orderEntity);
 }
