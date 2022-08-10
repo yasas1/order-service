@@ -1,13 +1,16 @@
 package com.yasas.ordereventservice.entity;
 
+import lombok.Builder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "order-event")
+
+@Builder
+@Document(collation = "OrderEvent")
 public class OrderEvent {
 
     @Id
-    private String tid;
+    private String id;
     private String bid;
 
     private String orderStatus;

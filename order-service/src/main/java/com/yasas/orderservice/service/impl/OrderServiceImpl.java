@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 public class OrderServiceImpl implements OrderService {
 
     private static final String TOPIC = "order-listener";
-    private static final String GROUP_ID = "orderGroup";
+    private static final String GROUP_ID = "orderGroup1";
 
     private final OrderRepository orderRepository;
 
@@ -30,10 +30,10 @@ public class OrderServiceImpl implements OrderService {
             groupId = GROUP_ID
     )
     public void consumeOrder(String eventMessage) {
-        log.info("Order Message : " + eventMessage);
+        log.info("Order Message in order-service: " + eventMessage);
         Gson gson = new Gson();
         OrderDto orderData = gson.fromJson(eventMessage, OrderDto.class);
-        log.info("OrderData : " + orderData);
+        log.info("OrderData in order-service: " + orderData);
         if (validateOrderData(orderData)) {
             this.createOrUpdateOrder(OrderObjectUtil.mapOrderDataToOrderEntity(orderData)).subscribe();
         }
@@ -47,10 +47,11 @@ public class OrderServiceImpl implements OrderService {
                     orderEntity.setTid(exist.getTid());
                     orderEntity.setCreatedDateTime(exist.getCreatedDateTime());
                     orderEntity.setLastUpdatedDateTime(System.currentTimeMillis());
-                    return orderRepository.save(orderEntity);
+                    return orderRepository.save(orderEntity)
+                            .doOnError(throwable -> log.error("Error in update order : ", throwable));
                 })
                 .switchIfEmpty(Mono.defer(() -> orderRepository.save(orderEntity)))
-                .doOnError(throwable -> log.error("Error in create or update order : ", throwable));
+                .doOnError(throwable -> log.error("Error in save order : ", throwable));
     }
 
     private boolean validateOrderData(OrderDto orderDto) {
