@@ -9,6 +9,7 @@ import com.yasas.orderservice.util.OrderObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
@@ -52,6 +53,11 @@ public class OrderServiceImpl implements OrderService {
                 })
                 .switchIfEmpty(Mono.defer(() -> orderRepository.save(orderEntity)))
                 .doOnError(throwable -> log.error("Error in save order : ", throwable));
+    }
+
+    @Override
+    public Flux<OrderEntity> streamOrders() {
+        return orderRepository.findAll();
     }
 
     private boolean validateOrderData(OrderDto orderDto) {
