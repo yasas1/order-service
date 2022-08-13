@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: order-service-api-gateway
   cloud:
     gateway:
       routes:
@@ -17,6 +19,9 @@ spring:
           predicates:
             - Path=/order-connector/*
             - Method=GET,POST,PUT,DELETE
+
+server:
+  port: 8222
 
 
 

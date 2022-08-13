@@ -1,5 +1,6 @@
 package com.yasas.orderservice.controller;
 
+import com.yasas.orderservice.entity.OrderEntity;
 import com.yasas.orderservice.service.OrderService;
 import com.yasas.orderservice.util.domain.HBM;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ public class OrderServiceController {
 
     @GetMapping(path = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Object> streamOrders(){
-        return Flux.interval(Duration.ofSeconds(10))
+        return Flux.interval(Duration.ofSeconds(5))
                 .map(i-> (Object) HBM.INSTANCE)
-                .mergeWith(i->orderService.streamOrders())
+                .mergeWith(orderService.streamOrders())
                 .doOnError(Throwable::printStackTrace);
     }
 }
