@@ -5,10 +5,7 @@ import com.yasas.orderconnectorservice.service.OrderSyncService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -17,6 +14,11 @@ public class OrderConnectorController {
 
     @Autowired
     OrderSyncService orderSyncService;
+
+    @GetMapping("/welcome")
+    public Mono<String> welcomeOrderEvents(){
+        return Mono.just("Welcome To Order Connector Service");
+    }
 
     @PostMapping("/sync")
     public Mono<String> orderSync(@RequestBody OrderSyncRequest orderSyncRequest, ServerHttpResponse response) {

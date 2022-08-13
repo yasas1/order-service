@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/fallback")
 public class FallBackController {
 
-    @GetMapping("/order-service-fallback")
+    @GetMapping("/order-connector-service")
     public Mono<String> orderServiceFallBack(ServerHttpResponse response) {
         response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
         return Mono.just("Services are facing a problem. Please Contact System Admin");
