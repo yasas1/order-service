@@ -24,6 +24,6 @@ public class OrderEventObjectUtil {
     }
 
     private static String getBidToOrderEntity(OrderEventDto orderEventDto) {
-        return "id_" + orderEventDto.getItemCode() + "_" + orderEventDto.getUserName() + "_" + orderEventDto.getOrderStatus();
+        return "id_" + orderEventDto.getItemCode() + "_" + orderEventDto.getUserName() + "_" + orderEventDto.getOrderedDateTime();
     }
 }

@@ -25,6 +25,24 @@ public class OrderSyncServiceImpl implements OrderSyncService {
     public void syncAndProduceOrderRequest(OrderSyncRequest orderSyncRequest) {
         Gson gson = new Gson();
         String order = gson.toJson(orderSyncRequest);
-        kafkaTemplate.send(topic,order);
+        if (validateOrderSyncRequest(orderSyncRequest)) {
+            kafkaTemplate.send(topic, order);
+        }
+    }
+
+    private boolean validateOrderSyncRequest(OrderSyncRequest orderSyncRequest) {
+        if (orderSyncRequest.getUserName() == null || orderSyncRequest.getUserName().isBlank()) {
+            return false;
+        }
+        if (orderSyncRequest.getEmail() == null || orderSyncRequest.getEmail().isBlank()) {
+            return false;
+        }
+        if (orderSyncRequest.getItemCode() == null || orderSyncRequest.getItemCode().isBlank()) {
+            return false;
+        }
+        if (orderSyncRequest.getOrderStatus() == null || orderSyncRequest.getOrderStatus().isBlank()) {
+            return false;
+        }
+        return true;
     }
 }
